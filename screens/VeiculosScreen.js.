@@ -1,0 +1,63 @@
+import React from 'react';
+import { SafeAreaView, FlatList, View, Text, Pressable, StyleSheet } from 'react-native';
+
+const veiculos = [
+  { id: '1', marca: 'Toyota', modelo: 'Corolla', ano: 2022, cor: 'Prata' },
+  { id: '2', marca: 'Honda', modelo: 'Civic', ano: 2021, cor: 'Preto' },
+  { id: '3', marca: 'Volkswagen', modelo: 'Gol', ano: 2019, cor: 'Branco' },
+  { id: '4', marca: 'Chevrolet', modelo: 'Onix', ano: 2023, cor: 'Azul' },
+  { id: '5', marca: 'Fiat', modelo: 'Argo', ano: 2020, cor: 'Vermelho' },
+  { id: '6', marca: 'Hyundai', modelo: 'HB20', ano: 2022, cor: 'Cinza' },
+];
+
+function CabecalhoLista() {
+  return <View style={styles.cabecalho}>
+    <Text style={styles.titulo}>Lista de veículos</Text>
+    <Text style={styles.subtitulo}>Confira os veículos cadastrados abaixo.</Text>
+  </View>;
+}
+function RodapeLista() {
+  return <View style={styles.rodape}>
+    <Text style={styles.textoRodape}>Total de veículos: {veiculos.length}</Text>
+  </View>;
+}
+function Separador() { return <View style={styles.separador} />; }
+function CardVeiculo({ item }) {
+  return <View style={styles.card}>
+    <Text style={styles.modelo}>{item.marca} {item.modelo}</Text>
+    <Text>Ano: {item.ano}</Text>
+    <Text>Cor: {item.cor}</Text>
+  </View>;
+}
+
+export default function VeiculosScreen({ onVoltar }) {
+  return <SafeAreaView style={styles.container}>
+    <FlatList
+      data={veiculos}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <CardVeiculo item={item} />}
+      ListHeaderComponent={CabecalhoLista}
+      ListFooterComponent={RodapeLista}
+      ItemSeparatorComponent={Separador}
+      contentContainerStyle={styles.conteudoLista}
+    />
+    <Pressable style={styles.botaoVoltar} onPress={onVoltar}>
+      <Text style={styles.textoBotaoVoltar}>Voltar</Text>
+    </Pressable>
+  </SafeAreaView>;
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#f1f5f9' },
+  conteudoLista: { padding: 16, paddingBottom: 24 },
+  cabecalho: { paddingVertical: 12, marginBottom: 8 },
+  titulo: { fontSize: 26, fontWeight: 'bold', color: '#0f172a' },
+  subtitulo: { fontSize: 15, color: '#475569', marginTop: 6 },
+  card: { backgroundColor: '#ffffff', borderRadius: 10, padding: 16, elevation: 2 },
+  modelo: { fontSize: 18, fontWeight: 'bold', color: '#166534', marginBottom: 6 },
+  separador: { height: 1, backgroundColor: '#cbd5e1', marginVertical: 10 },
+  rodape: { padding: 16, marginTop: 8, backgroundColor: '#dcfce7', borderRadius: 10 },
+  textoRodape: { fontWeight: 'bold', color: '#166534', textAlign: 'center' },
+  botaoVoltar: { marginHorizontal: 16, marginBottom: 16, padding: 14, borderRadius: 10, backgroundColor: '#334155', alignItems: 'center' },
+  textoBotaoVoltar: { color: '#ffffff', fontSize: 16, fontWeight: 'bold' },
+});
